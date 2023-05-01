@@ -4,9 +4,13 @@
 - [X] Сделать файл .env
 - [X] Поставить композер.
 - [X] Установить laravel
-- [ ] Добавить PHPMyAdmin в docker
+- [X] Добавить PHPMyAdmin в docker
 - [X] Добавить под гит.
 ## Поднятие проекта
-docker-compose up  
+### Первый разворот:
+docker-compose up -d
 cd www && composer update && cp .env.example  
 Сайт находиться по данной [ссылке](http://localhost:80).
+### Доступы для phpMyAdmin
+u: root
+p: secret
