@@ -1,5 +1,5 @@
 # Для начала указываем исходный образ, он будет использован как основа
-FROM php:8.1-fpm
+FROM php:8.0-fpm
 # Необязательная строка с указанием автора образа
 MAINTAINER nikihsah
 
@@ -13,11 +13,26 @@ RUN apt-get update && apt-get install -y \
         git \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
-        libmcrypt-dev \
-        libpng-dev \
-    && docker-php-ext-install -j$(nproc) iconv mcrypt mbstring mysqli pdo_mysql zip \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd
+	libpng-dev \
+	libonig-dev \
+	libzip-dev \
+	libmcrypt-dev \
+        && pecl install mcrypt-1.0.3 \
+	&& docker-php-ext-enable mcrypt \
+        && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip \
+	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
+        && docker-php-ext-install -j$(nproc) gd
+
+# Куда же без composer'а.
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+#Install xdebug
+RUN pecl install xdebug-3.1.4 && docker-php-ext-enable xdebug
+
+RUN docker-php-ext-install sockets
+
+RUN apt-get install -y zlib1g-dev libicu-dev g++
+RUN docker-php-ext-configure intl && docker-php-ext-install intl
 
 # Куда же без composer'а.
 #RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer

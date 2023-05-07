@@ -1,8 +1,9 @@
 # Версия docker-compose
-version: '2'
+version: '3'
 # Список наших сервисов (контейнеров)
 services:
   nginx:
+    platform: linux/x86_64
     # используем последний стабильный образ nginx
     image: nginx:latest
     container_name: mysql
@@ -24,6 +25,7 @@ services:
       MYSQL_USER: db
       MYSQL_PASSWORD: db
   php:
+    platform: linux/x86_64
     # у нас свой образ для PHP, указываем путь к нему и говорим что его надо собрать
     build: ./images/php
     # этот образ будет общаться с mysql
@@ -33,6 +35,7 @@ services:
     volumes:
       - ./www:/var/www
   mysql:
+    platform: linux/x86_64
     image: mysql:5.7
     ports:
       - "3307:3306"
@@ -46,6 +49,7 @@ services:
       MYSQL_PORT_3306_TCP_ADDR: mysql
       MYSQL_PORT_3306_TCP_PORT: 3307
   phpmyadmin:
+    platform: linux/x86_64
     image: phpmyadmin/phpmyadmin
     container_name: pma
     links:
