@@ -19,6 +19,16 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('role_id');
+            $table->string('api_login')->nullable();
+            $table->string('api_password')->nullable();
+            $table->text('page')->nullable();
+            $table->text('page_head')->nullable();
+            $table->string('page_head_image')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('full_name_company')->nullable();
+            $table->string('name_company')->nullable();
+            $table->string('status');
             $table->rememberToken();
             $table->timestamps();
         });
